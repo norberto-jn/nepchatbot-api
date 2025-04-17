@@ -1,0 +1,31 @@
+version : '3'
+
+networks:
+  nepchatbot-network:
+    driver: bridge
+
+services :
+
+  nepchatbot-api:
+    build:
+      context: ./nepchatbot-api
+      dockerfile: Dockerfile.dev
+    container_name: nepchatbot-api
+    restart: always
+    volumes:
+      - ./nepchatbot-api/:/usr/src/workspace/nepchatbot-api
+    ports:
+      - 3001:3001
+    networks:
+      - nepchatbot-network
+
+  # nepchatbot-ui :
+  #   build:
+  #     context: ./nepchatbot-ui
+  #     dockerfile: Dockerfile.dev
+  #   container_name: nepchatbot-ui
+  #   restart: always
+  #   volumes:
+  #     - ./nepchatbot-ui/:/usr/src/workspace/nepchatbot-ui
+  #   ports:
+  #     - 3000:3000
