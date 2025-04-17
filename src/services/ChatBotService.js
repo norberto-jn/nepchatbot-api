@@ -50,7 +50,7 @@ O que você deseja fazer?
 [2] Sair`;
 
         socket.emit('receivedMessage', {
-            author: "Bot",
+            username: "Bot",
             message: welcomeMessage
         });
 
