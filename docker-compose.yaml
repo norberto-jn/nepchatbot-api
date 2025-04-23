@@ -29,3 +29,34 @@ services :
       - ./nepchatbot-ui/:/usr/src/workspace/nepchatbot-ui
     ports:
       - 3000:3000
+    networks:
+      - nepchatbot-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    ports:
+      - "8081:16686"
+      - "14268"
+      - "14250"
+    networks:
+      - nepchatbot-network
+
+  otel-collector:
+    image: otel/opentelemetry-collector:latest
+    container_name: otel-collector
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./nepchatbot-api/otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "1888:1888"
+      - "13133:13133"
+      - "4317:4317"
+      - "4318:4318"
+      - "55679:55679"
+    depends_on:
+      - jaeger
+    links:
+      - jaeger
+    networks:
+      - nepchatbot-network

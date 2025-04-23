@@ -63,7 +63,7 @@ O que você deseja fazer?
 
     async handleMessage(data, socket, messages) {
         messages.push(data);
-
+        const span = trace.getSpan(context.active())
         switch (data.message.trim()) {
             case '1':
                 socket.emit('receivedMessage', {
@@ -82,6 +82,7 @@ O que você deseja fazer?
             default:
                 if (messages.length > 1 && messages[messages.length - 2].message.trim() === '1') {
                     const weatherInfo = await ChatBotService.getWeather(data.message.trim());
+
                     socket.emit('receivedMessage', {
                         author: "Bot",
                         message: weatherInfo
