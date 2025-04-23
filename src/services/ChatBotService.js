@@ -63,7 +63,6 @@ O que você deseja fazer?
 
     async handleMessage(data, socket, messages) {
         messages.push(data);
-        const span = trace.getSpan(context.active())
         switch (data.message.trim()) {
             case '1':
                 socket.emit('receivedMessage', {
